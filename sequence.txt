@@ -1,0 +1,78 @@
+/*******************************
+** Global parameters **
+*******************************/
+title = "sequence";
+seed = "seed_used.prv";
+nthread = 12;
+nrep = 1; //Number of replicates
+h2 = 0.25; //Heritability
+qtlh2 = 0.25; //QTL heritability
+phvar = 1.0; //Phenotypic variance
+/*******************************
+** Historical population **
+*******************************/
+begin_hp;
+hg_size = 1400 [0] //Size of the historical generations
+	  1000 [250]
+	  100  [500]
+	  5000 [505];	  
+nmlhg = 200; //Number of males in the last generation
+end_hp;
+/*******************************
+** Populations **
+*******************************/
+begin_pop = "p1";
+begin_founder;
+male [n = 200, pop = "hp"];
+female [n = 2500, pop = "hp"];
+end_founder;
+ls = 1; //Litter size
+pmp = 0.5 /fix; //Proportion of male progeny
+ng = 20; //Number of generations
+md = rnd;
+dr = 0.5;
+sr = 1.0;
+sd = ebv /h;
+ebv_est=accur 0.80 /true_av;
+
+begin_popoutput;
+data / gen 20;
+genotype /snp_code /gen 20;
+allele_freq /gen 0 10; //20 30 40 50 60 70 80 90 100;
+end_popoutput;
+end_pop;
+/*******************************
+** Genome **
+*******************************/
+begin_genome;
+
+begin_chr = 29;
+chrlen = 100; //Chromosome length
+nmloci = 400000; //Number of markers
+mpos = rnd; //Marker positions
+nma = all 2; //Number of marker alleles
+maf = eql; //Marker allele frequencies
+nqloci = 350; //Number of QTL
+qpos = rnd; //QTL positions
+nqa = all 2; //Number of QTL alleles
+qaf = eql; //QTL allele frequencies
+qae = rnd; //QTL allele effects
+end_chr;
+
+mmutr = 1e-4 /recurrent; //Marker mutation rate
+qmutr = 1e-5 /recurrent; //QTL mutation rate
+interference = 100;
+r_mpos_g; //Randomize marker positions across genome
+r_qpos_g; //Randomize QTL positions across genome
+//interference = 25;
+select_seg_loci /maft 0.001;
+end_genome;
+
+/*******************************
+** Output options **
+*******************************/
+begin_output;
+linkage_map;
+allele_effect;
+hp_stat;
+end_output;

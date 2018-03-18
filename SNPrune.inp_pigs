@@ -1,0 +1,11 @@
+52843
+genotypes
+../genotypes3.txt
+../genotypes3_purged.txt
+dense
+high_LD
+1
+0.99
+0
+1
+0.000001
